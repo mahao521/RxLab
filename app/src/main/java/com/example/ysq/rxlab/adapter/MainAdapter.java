@@ -1,0 +1,69 @@
+package com.example.ysq.rxlab.adapter;
+
+import android.content.Context;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.example.ysq.rxlab.R;
+import com.example.ysq.rxlab.activity.MainActivity;
+import com.example.ysq.rxlab.fragment.SampleFragment1;
+import com.jakewharton.rxbinding.view.RxView;
+
+import java.util.concurrent.TimeUnit;
+
+import rx.functions.Action1;
+
+
+public class MainAdapter extends RecyclerView.Adapter {
+
+
+    Context mContext;
+
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        mContext = recyclerView.getContext();
+    }
+
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new MyViewHolder(LayoutInflater.from(mContext).inflate(R.layout.rv_main, parent, false));
+    }
+
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        switch (position) {
+            case 0:
+                ((MyViewHolder) holder).textView.setText("Retrofit+Rxjava网络框架");
+                RxView.clicks(((MyViewHolder) holder).textView)
+                        .throttleFirst(500, TimeUnit.MILLISECONDS)
+                        .subscribe(new Action1<Void>() {
+                            @Override
+                            public void call(Void aVoid) {
+                                ((MainActivity) mContext).startFragment(new SampleFragment1());
+                            }
+                        });
+                break;
+        }
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return 1;
+    }
+
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+        TextView textView;
+
+        MyViewHolder(View itemView) {
+            super(itemView);
+            textView = (TextView) itemView;
+        }
+    }
+
+
+}
