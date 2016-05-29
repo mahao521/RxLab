@@ -1,5 +1,6 @@
 package com.example.ysq.rxlab.sqlite;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -18,7 +19,7 @@ public class DStockList {
     private final DbHelper dbHelper;
 
     public DStockList(Context context) {
-        dbHelper = new DbHelper(context);
+        dbHelper = DbHelper.g(context);
     }
 
     public Observable<List<StockBean>> getStockList() {
@@ -50,6 +51,30 @@ public class DStockList {
                 subscriber.onNext(stockBean);
             }
         });
+    }
+
+
+    public void setStockList(List<StockBean> stockList) {
+        synchronized (dbHelper) {
+            SQLiteDatabase dataBase = null;
+            try {
+                dataBase = dbHelper.getWritableDatabase();
+                dataBase.delete("DStockList", null, null);
+                for (StockBean stockBean : stockList) {
+                    ContentValues values = new ContentValues();
+                    values.put("code", stockBean.getCode());
+                    values.put("name", stockBean.getName());
+                    values.put("price", stockBean.getPrice());
+                    values.put("percent", stockBean.getPercent());
+                    dataBase.insert("DStockList", null, values);
+                }
+            } catch (Exception e) {
+                Log.e(DStockList.class.getSimpleName(), e.getMessage());
+            } finally {
+                if (dataBase != null)
+                    dataBase.close();
+            }
+        }
     }
 
 }

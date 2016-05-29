@@ -48,6 +48,7 @@ public class Sample1Adapter extends RecyclerView.Adapter {
         notifyDataSetChanged();
     }
 
+
     @Override
     public int getItemCount() {
         if (mStockBean == null) return 0;

@@ -142,6 +142,29 @@ public class SampleFragment1 extends YSFragment {
                         .input("沪股以sh开头，深股以sz开头", null, new MaterialDialog.InputCallback() {
                             @Override
                             public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
+                                Observable.just(input.toString())
+                                        .map(new Func1<String, StockBean>() {
+                                            @Override
+                                            public StockBean call(String s) {
+                                                StockBean stockBean = new StockBean();
+                                                stockBean.setCode(s);
+                                                return stockBean;
+                                            }
+                                        })
+                                        .doOnNext(new Action1<StockBean>() {
+                                            @Override
+                                            public void call(StockBean stockBean) {
+                                                mStockBeen.add(0, stockBean);
+                                                mAdapter.notifyItemInserted(0);
+                                            }
+                                        })
+                                        .subscribeOn(Schedulers.io())
+                                        .subscribe(new Action1<StockBean>() {
+                                            @Override
+                                            public void call(StockBean stockBean) {
+                                                new DStockList(getContext()).setStockList(mStockBeen);
+                                            }
+                                        });
 
                             }
                         })
