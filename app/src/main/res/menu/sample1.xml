@@ -2,8 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/message"
+        android:id="@+id/add"
+        android:icon="@drawable/ic_add_white_24dp"
         android:orderInCategory="100"
-        android:title="test"
+        android:title="@string/menu_stock_add"
         app:showAsAction="always" />
 </menu>

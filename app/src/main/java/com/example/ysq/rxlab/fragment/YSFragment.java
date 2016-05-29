@@ -2,6 +2,8 @@ package com.example.ysq.rxlab.fragment;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.ysq.rxlab.R;
 import com.example.ysq.rxlab.activity.IScrew;
@@ -13,24 +15,30 @@ import com.example.ysq.rxlab.activity.IScrew;
 
 public class YSFragment extends Fragment {
 
-    IScrew mContext;
 
-    private String mTitle = getClass().getSimpleName();
+    IScrew screw;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mContext = (IScrew) context;
+        screw = (IScrew) context;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        mContext.invalidateActionBar(mTitle, R.menu.fragment_main);
+        screw.invalidateActionbar(this);
     }
 
 
-    public void setTitle(String title) {
-        this.mTitle = title;
+    public int invaliMenu() {
+        return R.menu.black;
+    }
+
+    public void invaliOptionSelected(MenuItem item) {
+    }
+
+    public String invaliTitle() {
+        return getClass().getSimpleName();
     }
 }

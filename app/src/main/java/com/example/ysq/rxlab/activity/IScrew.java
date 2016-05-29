@@ -1,10 +1,11 @@
 package com.example.ysq.rxlab.activity;
 
+import com.example.ysq.rxlab.fragment.YSFragment;
+
 /**
- * 作者：杨水强
- * 时间：2016/5/27
+ * Created by YaNG on 2016/5/29.
  */
 
 public interface IScrew {
-    public void invalidateActionBar(String title, int menuID);
+    public void invalidateActionbar(YSFragment fragment);
 }

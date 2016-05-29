@@ -1,14 +1,17 @@
 package com.example.ysq.rxlab.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.ysq.rxlab.R;
 import com.example.ysq.rxlab.adapter.Sample1Adapter;
 import com.example.ysq.rxlab.model.StockBean;
@@ -41,6 +44,7 @@ public class SampleFragment1 extends YSFragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_sample1, container, false);
         ButterKnife.bind(this, view);
+
         mRv.setHasFixedSize(true);
         mRv.setLayoutManager(new LinearLayoutManager(getContext()));
         mRv.setAdapter(mAdapter = new Sample1Adapter());
@@ -101,7 +105,7 @@ public class SampleFragment1 extends YSFragment {
                 .doOnNext(new Action1<String>() {
                     @Override
                     public void call(String string) {
-                        
+
                     }
                 })
                 .subscribe(new Action1<String>() {
@@ -120,9 +124,37 @@ public class SampleFragment1 extends YSFragment {
     }
 
     @Override
+    public int invaliMenu() {
+        return R.menu.sample1;
+    }
+
+    @Override
+    public String invaliTitle() {
+        return super.invaliTitle();
+    }
+
+    @Override
+    public void invaliOptionSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.add:
+                new MaterialDialog.Builder(getContext())
+                        .title("添加股票代码")
+                        .input("沪股以sh开头，深股以sz开头", null, new MaterialDialog.InputCallback() {
+                            @Override
+                            public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
+
+                            }
+                        })
+                        .positiveText("确定")
+                        .negativeText("取消")
+                        .show();
+                break;
+        }
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
-
 }
