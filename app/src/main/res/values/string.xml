@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">RxLab</string>
+    <string name="sample_fragment0">新闻</string>
+    <string name="menu_stock_add">添加</string>
+</resources>

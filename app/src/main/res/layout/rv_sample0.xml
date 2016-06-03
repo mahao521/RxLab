@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="56dp">
@@ -10,6 +9,7 @@
         android:layout_height="56dp"
         android:background="@drawable/sl_common_bg"
         android:gravity="center_vertical"
+        android:maxLines="1"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin" />
 

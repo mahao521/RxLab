@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements IScrew {
         setSupportActionBar(mToolbar);
         getSupportFragmentManager().beginTransaction().add(R.id.container, new MainFragment()).commit();
 
+
     }
 
     public void startFragment(YSFragment fragment) {
