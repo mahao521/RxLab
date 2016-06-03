@@ -44,7 +44,7 @@ public class MainAdapter extends RecyclerView.Adapter {
             case 0:
                 ((MyViewHolder) holder).textView.setText("Retrofit+Rxjava网络框架");
                 RxView.clicks(((MyViewHolder) holder).textView)
-                        .throttleFirst(500, TimeUnit.MILLISECONDS)
+                        .throttleFirst(500, TimeUnit.MILLISECONDS)//防抖动
                         .subscribe(new Action1<Void>() {
                             @Override
                             public void call(Void aVoid) {

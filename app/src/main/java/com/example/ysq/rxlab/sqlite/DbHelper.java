@@ -12,8 +12,8 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class DbHelper extends SQLiteOpenHelper {
 
-    private static final String DB_NAME = "zumrud2.db3";
-    private static final int DB_VERSION = 2;
+    private static final String DB_NAME = "rxlab.db3";
+    private static final int DB_VERSION = 1;
 
     private static DbHelper mInstance;
 

@@ -2,16 +2,12 @@ package com.example.ysq.rxlab.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.ysq.rxlab.R;
-import com.example.ysq.rxlab.model.StockBean;
-
-import java.util.List;
 
 /**
  * 作者：ysq
@@ -22,7 +18,6 @@ public class Sample1Adapter extends RecyclerView.Adapter {
 
     Context mContext;
 
-    List<StockBean> mStockBean;
 
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
@@ -37,26 +32,14 @@ public class Sample1Adapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (!TextUtils.isEmpty(mStockBean.get(position).getName()))
-            ((MyViewHolder) holder).name.setText(mStockBean.get(position).getName());
-        else
-            ((MyViewHolder) holder).name.setText(mStockBean.get(position).getCode());
-        ((MyViewHolder) holder).price.setText(mStockBean.get(position).getPrice());
-        ((MyViewHolder) holder).percent.setText(mStockBean.get(position).getPercent());
 
     }
 
-
-    public void refresh(List<StockBean> stockBeen) {
-        mStockBean = stockBeen;
-        notifyDataSetChanged();
-    }
 
 
     @Override
     public int getItemCount() {
-        if (mStockBean == null) return 0;
-        else return mStockBean.size();
+        return 0;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
