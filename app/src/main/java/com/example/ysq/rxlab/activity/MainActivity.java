@@ -13,6 +13,11 @@ import com.example.ysq.rxlab.fragment.YSFragment;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+/**
+ * 作者：ysq
+ * 时间：2016/6/3
+ */
+
 public class MainActivity extends AppCompatActivity implements IScrew {
 
     @Bind(R.id.toolbar)

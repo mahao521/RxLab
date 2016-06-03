@@ -9,7 +9,7 @@ import com.example.ysq.rxlab.R;
 import com.example.ysq.rxlab.activity.IScrew;
 
 /**
- * 作者：杨水强
+ * 作者：ysq
  * 时间：2016/5/27
  */
 

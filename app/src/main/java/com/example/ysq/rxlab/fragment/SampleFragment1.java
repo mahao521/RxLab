@@ -30,6 +30,10 @@ import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
+/**
+ * 作者：ysq
+ * 时间：2016/6/3
+ */
 
 public class SampleFragment1 extends YSFragment {
 

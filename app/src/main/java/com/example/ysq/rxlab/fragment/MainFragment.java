@@ -1,7 +1,5 @@
 package com.example.ysq.rxlab.fragment;
 
-import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,6 +14,10 @@ import com.example.ysq.rxlab.adapter.MainAdapter;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+/**
+ * 作者：ysq
+ * 时间：2016/6/3
+ */
 
 public class MainFragment extends YSFragment {
     @Bind(R.id.rv)
@@ -38,7 +40,4 @@ public class MainFragment extends YSFragment {
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
-
-
-
 }

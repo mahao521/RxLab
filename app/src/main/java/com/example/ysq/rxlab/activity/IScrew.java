@@ -3,9 +3,10 @@ package com.example.ysq.rxlab.activity;
 import com.example.ysq.rxlab.fragment.YSFragment;
 
 /**
- * Created by YaNG on 2016/5/29.
+ * 作者：ysq
+ * 时间：2016/6/3
  */
 
 public interface IScrew {
-    public void invalidateActionbar(YSFragment fragment);
+    void invalidateActionbar(YSFragment fragment);
 }

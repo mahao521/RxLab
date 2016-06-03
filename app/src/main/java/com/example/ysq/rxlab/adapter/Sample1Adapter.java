@@ -13,6 +13,10 @@ import com.example.ysq.rxlab.model.StockBean;
 
 import java.util.List;
 
+/**
+ * 作者：ysq
+ * 时间：2016/6/3
+ */
 
 public class Sample1Adapter extends RecyclerView.Adapter {
 
