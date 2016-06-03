@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.example.ysq.rxlab.R;
 import com.example.ysq.rxlab.activity.MainActivity;
+import com.example.ysq.rxlab.fragment.SampleFragment0;
 import com.example.ysq.rxlab.fragment.SampleFragment1;
 import com.jakewharton.rxbinding.view.RxView;
 
@@ -43,6 +44,18 @@ public class MainAdapter extends RecyclerView.Adapter {
                         .subscribe(new Action1<Void>() {
                             @Override
                             public void call(Void aVoid) {
+                                ((MainActivity) mContext).startFragment(new SampleFragment0());
+                            }
+                        });
+                break;
+
+            case 1:
+                ((MyViewHolder) holder).textView.setText("Retrofit+Rxjava网络框架+缓存");
+                RxView.clicks(((MyViewHolder) holder).textView)
+                        .throttleFirst(500, TimeUnit.MILLISECONDS)
+                        .subscribe(new Action1<Void>() {
+                            @Override
+                            public void call(Void aVoid) {
                                 ((MainActivity) mContext).startFragment(new SampleFragment1());
                             }
                         });
@@ -53,7 +66,7 @@ public class MainAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return 1;
+        return 2;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -61,7 +74,7 @@ public class MainAdapter extends RecyclerView.Adapter {
 
         MyViewHolder(View itemView) {
             super(itemView);
-            textView = (TextView) itemView;
+            textView = (TextView) itemView.findViewById(R.id.tv);
         }
     }
 

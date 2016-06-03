@@ -1,7 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="56dp"
-    android:background="@drawable/sl_common_bg"
-    android:gravity="center_vertical"
-    android:paddingLeft="@dimen/activity_horizontal_margin" />
+    android:layout_height="56dp">
+
+    <TextView
+        android:id="@+id/tv"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@drawable/sl_common_bg"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/activity_horizontal_margin" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:background="@color/divideBlack" />
+</RelativeLayout>
