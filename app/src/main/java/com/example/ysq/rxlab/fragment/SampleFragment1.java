@@ -1,11 +1,13 @@
 package com.example.ysq.rxlab.fragment;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -20,7 +22,7 @@ import butterknife.ButterKnife;
  * 时间：2016/6/3
  */
 
-public class SampleFragment1 extends YSFragment {
+public class SampleFragment1 extends Fragment {
 
     @Bind(R.id.rv)
     RecyclerView mRv;
@@ -32,6 +34,7 @@ public class SampleFragment1 extends YSFragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_sample1, container, false);
         ButterKnife.bind(this, view);
+        setHasOptionsMenu(true);
 
         mRv.setHasFixedSize(true);
         mRv.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -42,22 +45,9 @@ public class SampleFragment1 extends YSFragment {
     }
 
     @Override
-    public int invaliMenu() {
-        return R.menu.sample1;
-    }
-
-    @Override
-    public String invaliTitle() {
-        return super.invaliTitle();
-    }
-
-    @Override
-    public void invaliOptionSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.add:
-
-                break;
-        }
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.sample1, menu);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override

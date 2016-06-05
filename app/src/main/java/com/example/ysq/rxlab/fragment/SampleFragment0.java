@@ -1,6 +1,7 @@
 package com.example.ysq.rxlab.fragment;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -28,7 +29,7 @@ import rx.schedulers.Schedulers;
  * 时间：2016/6/3
  */
 
-public class SampleFragment0 extends YSFragment {
+public class SampleFragment0 extends Fragment {
 
     @Bind(R.id.rv)
     RecyclerView mRv;
@@ -76,10 +77,6 @@ public class SampleFragment0 extends YSFragment {
     }
 
 
-    @Override
-    public String invaliTitle() {
-        return getString(R.string.sample_fragment0);
-    }
 
     @Override
     public void onDestroyView() {

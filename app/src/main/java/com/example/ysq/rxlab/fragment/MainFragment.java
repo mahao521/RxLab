@@ -1,6 +1,7 @@
 package com.example.ysq.rxlab.fragment;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,7 +20,7 @@ import butterknife.ButterKnife;
  * 时间：2016/6/3
  */
 
-public class MainFragment extends YSFragment {
+public class MainFragment extends Fragment {
     @Bind(R.id.rv)
     RecyclerView mRv;
 

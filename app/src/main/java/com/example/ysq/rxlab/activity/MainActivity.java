@@ -1,14 +1,12 @@
 package com.example.ysq.rxlab.activity;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import com.example.ysq.rxlab.R;
 import com.example.ysq.rxlab.fragment.MainFragment;
-import com.example.ysq.rxlab.fragment.YSFragment;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -18,12 +16,10 @@ import butterknife.ButterKnife;
  * 时间：2016/6/3
  */
 
-public class MainActivity extends AppCompatActivity implements IScrew {
+public class MainActivity extends AppCompatActivity {
 
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
-
-    YSFragment mFragment;
 
 
     @Override
@@ -33,11 +29,9 @@ public class MainActivity extends AppCompatActivity implements IScrew {
         ButterKnife.bind(this);
         setSupportActionBar(mToolbar);
         getSupportFragmentManager().beginTransaction().add(R.id.container, new MainFragment()).commit();
-
-
     }
 
-    public void startFragment(YSFragment fragment) {
+    public void startFragment(Fragment fragment) {
         getSupportFragmentManager()
                 .beginTransaction()
                 .addToBackStack(null)
@@ -48,34 +42,9 @@ public class MainActivity extends AppCompatActivity implements IScrew {
 
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        if (mFragment != null) {
-            getMenuInflater().inflate(mFragment.invaliMenu(), menu);
-        } else {
-            getMenuInflater().inflate(R.menu.black, menu);
-        }
-        return super.onCreateOptionsMenu(menu);
-    }
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (mFragment != null) {
-            mFragment.invaliOptionSelected(item);
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
     protected void onDestroy() {
         super.onDestroy();
         ButterKnife.unbind(this);
     }
 
-    @Override
-    public void invalidateActionbar(YSFragment fragment) {
-        mToolbar.setTitle(fragment.invaliTitle());
-        mFragment = fragment;
-        invalidateOptionsMenu();
-    }
 }
