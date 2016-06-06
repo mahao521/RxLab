@@ -54,7 +54,7 @@ public class MainAdapter extends RecyclerView.Adapter {
                 break;
 
             case 1:
-                ((MyViewHolder) holder).textView.setText("Retrofit+Rxjava网络框架+缓存");
+                ((MyViewHolder) holder).textView.setText("Retrofit+Rxjava+sqlite");
                 RxView.clicks(((MyViewHolder) holder).textView)
                         .throttleFirst(500, TimeUnit.MILLISECONDS)
                         .subscribe(new Action1<Void>() {

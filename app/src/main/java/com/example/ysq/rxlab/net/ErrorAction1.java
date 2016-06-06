@@ -4,6 +4,8 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.ysq.rxlab.net.RxJavaCallAdapterFactory.HttpException;
+
 import java.net.UnknownHostException;
 
 import rx.functions.Action1;
@@ -25,6 +27,7 @@ public class ErrorAction1 implements Action1<Throwable> {
         if (throwable instanceof UnknownHostException) {
             Toast.makeText(mContext, "联网失败，请检查网络", Toast.LENGTH_SHORT).show();
         } else {
+            ((HttpException) throwable).getMessage();
             Log.i(ErrorAction1.class.getSimpleName(), throwable.getMessage());
         }
     }
