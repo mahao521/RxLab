@@ -12,4 +12,5 @@
     <color name="sencondaryTextBlack">#B2000000</color>
     <color name="thirdTextBlack">#42000000</color>
     <color name="divideBlack">#1E000000</color>
+    <color name="defaultBlack">#1E000000</color>
 </resources>
