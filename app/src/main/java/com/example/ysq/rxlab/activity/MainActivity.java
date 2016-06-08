@@ -1,12 +1,14 @@
 package com.example.ysq.rxlab.activity;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
 import com.example.ysq.rxlab.R;
-import com.example.ysq.rxlab.fragment.MainFragment;
+import com.example.ysq.rxlab.adapter.MainAdapter;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -21,6 +23,9 @@ public class MainActivity extends AppCompatActivity {
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
 
+    @Bind(R.id.rv)
+    RecyclerView mRv;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,16 +33,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         setSupportActionBar(mToolbar);
-        getSupportFragmentManager().beginTransaction().add(R.id.container, new MainFragment()).commit();
-    }
 
-    public void startFragment(Fragment fragment) {
-        getSupportFragmentManager()
-                .beginTransaction()
-                .addToBackStack(null)
-                .setCustomAnimations(R.anim.fragment_fade_in, R.anim.fragment_fade_out, R.anim.fragment_fade_in_pop, R.anim.fragment_fade_out_pop)
-                .replace(R.id.container, fragment)
-                .commit();
+        mRv.setHasFixedSize(true);
+        mRv.setLayoutManager(new LinearLayoutManager(this));
+        mRv.setAdapter(new MainAdapter());
+        mRv.setItemAnimator(new DefaultItemAnimator());
+
     }
 
 

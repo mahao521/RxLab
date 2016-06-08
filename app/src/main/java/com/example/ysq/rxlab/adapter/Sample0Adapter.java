@@ -26,6 +26,10 @@ public class Sample0Adapter extends RecyclerView.Adapter {
 
     List<NewsBean> mNewsBeen;
 
+    public Sample0Adapter(List<NewsBean> newsBeen) {
+        this.mNewsBeen = newsBeen;
+    }
+
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
@@ -48,13 +52,9 @@ public class Sample0Adapter extends RecyclerView.Adapter {
     @Override
     public int getItemCount() {
         if (mNewsBeen == null) return 0;
-        else return mNewsBeen.size() * 20;
+        else return mNewsBeen.size();
     }
 
-    public void refresh(List<NewsBean> been) {
-        mNewsBeen = been;
-        notifyDataSetChanged();
-    }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
         TextView textView;

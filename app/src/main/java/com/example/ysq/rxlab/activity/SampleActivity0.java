@@ -1,14 +1,13 @@
-package com.example.ysq.rxlab.fragment;
+package com.example.ysq.rxlab.activity;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.example.ysq.rxlab.R;
@@ -26,10 +25,12 @@ import rx.schedulers.Schedulers;
 
 /**
  * 作者：ysq
- * 时间：2016/6/3
+ * 时间：2016/6/8
  */
 
-public class SampleFragment0 extends Fragment {
+public class SampleActivity0 extends AppCompatActivity {
+    @Bind(R.id.toolbar)
+    Toolbar mToolbar;
 
     @Bind(R.id.rv)
     RecyclerView mRv;
@@ -41,17 +42,16 @@ public class SampleFragment0 extends Fragment {
 
     Subscription subscribe;
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_sample0, container, false);
-        ButterKnife.bind(this, view);
-
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_sample0);
+        ButterKnife.bind(this);
+        setSupportActionBar(mToolbar);
 
         mRv.setHasFixedSize(true);
-        mRv.setLayoutManager(new LinearLayoutManager(getContext()));
-        mRv.setAdapter(mAdapter = new Sample0Adapter());
+        mRv.setLayoutManager(new LinearLayoutManager(this));
         mRv.setItemAnimator(new DefaultItemAnimator());
-
 
         subscribe = Rt.baidu().getNews()//获取新闻
                 .subscribeOn(Schedulers.io())
@@ -66,22 +66,22 @@ public class SampleFragment0 extends Fragment {
                     @Override
                     public void call(HttpNewsBean httpNewsBean) {
                         if (httpNewsBean.getErrNum() == 0) {
-                            mAdapter.refresh(httpNewsBean.getRetData());
+                            mRv.setAdapter(mAdapter = new Sample0Adapter(httpNewsBean.getRetData()));
                         } else {
-                            Log.e(SampleFragment0.class.getSimpleName(), httpNewsBean.getErrMsg());
+                            Log.e(SampleActivity0.class.getSimpleName(), httpNewsBean.getErrMsg());
                         }
                     }
-                }, new ErrorAction1(getContext()));
+                }, new ErrorAction1(this));
 
-        return view;
+
     }
-
 
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
+    protected void onDestroy() {
+        super.onDestroy();
         ButterKnife.unbind(this);
-        subscribe.unsubscribe();//取消订阅，防止内存泄漏
+        subscribe.unsubscribe();
     }
+
 }

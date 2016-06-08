@@ -1,6 +1,7 @@
 package com.example.ysq.rxlab.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,9 +9,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.ysq.rxlab.R;
-import com.example.ysq.rxlab.activity.MainActivity;
-import com.example.ysq.rxlab.fragment.SampleFragment0;
-import com.example.ysq.rxlab.fragment.SampleFragment1;
+import com.example.ysq.rxlab.activity.SampleActivity0;
+import com.example.ysq.rxlab.activity.SampleActivity1;
 import com.jakewharton.rxbinding.view.RxView;
 
 import java.util.concurrent.TimeUnit;
@@ -48,7 +48,7 @@ public class MainAdapter extends RecyclerView.Adapter {
                         .subscribe(new Action1<Void>() {
                             @Override
                             public void call(Void aVoid) {
-                                ((MainActivity) mContext).startFragment(new SampleFragment0());
+                                mContext.startActivity(new Intent(mContext, SampleActivity0.class));
                             }
                         });
                 break;
@@ -60,7 +60,7 @@ public class MainAdapter extends RecyclerView.Adapter {
                         .subscribe(new Action1<Void>() {
                             @Override
                             public void call(Void aVoid) {
-                                ((MainActivity) mContext).startFragment(new SampleFragment1());
+                                mContext.startActivity(new Intent(mContext, SampleActivity1.class));
                             }
                         });
                 break;

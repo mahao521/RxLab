@@ -13,4 +13,8 @@ public class HttpNewsBean extends CatachableBean {
     public List<NewsBean> getRetData() {
         return retData;
     }
+
+    public void setRetData(List<NewsBean> retData) {
+        this.retData = retData;
+    }
 }
