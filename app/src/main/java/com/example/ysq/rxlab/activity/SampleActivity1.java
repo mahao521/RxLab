@@ -2,6 +2,7 @@ package com.example.ysq.rxlab.activity;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,19 +12,26 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.ysq.rxlab.R;
-import com.example.ysq.rxlab.adapter.CityAddAdapter;
 import com.example.ysq.rxlab.adapter.Sample1Adapter;
+import com.example.ysq.rxlab.model.CityBean;
 import com.example.ysq.rxlab.model.HttpCitysBean;
+import com.example.ysq.rxlab.model.HttpWeatherBean;
 import com.example.ysq.rxlab.net.ErrorAction1;
 import com.example.ysq.rxlab.net.Rt;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -71,7 +79,7 @@ public class SampleActivity1 extends AppCompatActivity {
                         .input("请输入城市或者省份", null, false, new MaterialDialog.InputCallback() {
                             @Override
                             public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
-                                addCity(input.toString());
+                                showAddCity(input.toString());
                             }
                         })
                         .positiveText(getResources().getString(R.string.dialog_ok))
@@ -83,27 +91,62 @@ public class SampleActivity1 extends AppCompatActivity {
     }
 
 
-    private void addCity(@NonNull String cityName) {
+    private void showAddCity(@NonNull String cityName) {
         Rt.baidu().getCitys(cityName).subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.computation())
+                .doOnNext(new Action1<HttpCitysBean>() {
+                    @Override
+                    public void call(HttpCitysBean httpCitysBean) {
+                        List<String> been = new ArrayList<>();
+                        for (CityBean cityBean : httpCitysBean.getRetData()) {
+                            been.add(cityBean.getName_cn());
+                        }
+                        httpCitysBean.setCollection(been);
+                    }
+                })
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<HttpCitysBean>() {
                     @Override
-                    public void call(HttpCitysBean httpCitysBean) {
+                    public void call(final HttpCitysBean httpCitysBean) {
                         if (httpCitysBean.getErrNum() == 0) {
                             new MaterialDialog.Builder(SampleActivity1.this)
                                     .title("请选择一个城市")
-                                    .adapter(new CityAddAdapter(SampleActivity1.this, httpCitysBean.getRetData()), new MaterialDialog.ListCallback() {
+                                    .items(httpCitysBean.getCollection())
+                                    .itemsCallbackSingleChoice(-1, new MaterialDialog.ListCallbackSingleChoice() {
                                         @Override
-                                        public void onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
-
+                                        public boolean onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
+                                            addCity(httpCitysBean.getRetData().get(which));
+                                            return false;
                                         }
                                     })
                                     .positiveText(getResources().getString(R.string.dialog_ok))
                                     .negativeText(getResources().getString(R.string.dialog_cancel))
                                     .show();
                         } else {
-                            Log.e(SampleActivity1.class.getSimpleName(), httpCitysBean.getErrMsg());
+                            Snackbar.make(getWindow().getDecorView().findViewById(android.R.id.content), "查询城市不存在", Snackbar.LENGTH_LONG).show();
+                            Log.e(SampleActivity1.class.getSimpleName(), httpCitysBean.getErrMsg() + ",code:" + httpCitysBean.getErrNum());
                         }
+                    }
+                }, new ErrorAction1(SampleActivity1.this));
+    }
+
+    private void addCity(CityBean cityBean) {
+        Observable.just(cityBean)
+                .observeOn(Schedulers.io())
+                .flatMap(new Func1<CityBean, Observable<HttpWeatherBean>>() {
+                    @Override
+                    public Observable<HttpWeatherBean> call(CityBean cityBean) {
+                        return Rt.baidu().getWeather(cityBean.getArea_id() + "");
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<HttpWeatherBean>() {
+                    @Override
+                    public void call(HttpWeatherBean httpWeatherBean) {
+                        if (httpWeatherBean.getErrNum() == 0)
+                            Toast.makeText(SampleActivity1.this, httpWeatherBean.getRetData().getToday().getType(), Toast.LENGTH_SHORT).show();
+                        else
+                            Log.i(SampleActivity1.class.getSimpleName(), "httpWeatherBean.getErrNum():" + httpWeatherBean.getErrNum());
                     }
                 }, new ErrorAction1(SampleActivity1.this));
     }

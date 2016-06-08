@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         setSupportActionBar(mToolbar);
+        getSupportActionBar().setTitle(getString(R.string.activity_main));
 
         mRv.setHasFixedSize(true);
         mRv.setLayoutManager(new LinearLayoutManager(this));

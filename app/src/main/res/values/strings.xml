@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="activity_main">首页</string>
     <string name="activity_sample0">新闻</string>
     <string name="app_name">RxLab</string>
     <string name="menu_stock_add">添加</string>
     <string name="dialog_ok">确定</string>
     <string name="dialog_cancel">取消</string>
+    <string name="activity_main">首页</string>
 </resources>

@@ -2,6 +2,7 @@ package com.example.ysq.rxlab.net;
 
 import com.example.ysq.rxlab.model.HttpCitysBean;
 import com.example.ysq.rxlab.model.HttpNewsBean;
+import com.example.ysq.rxlab.model.HttpWeatherBean;
 import com.example.ysq.rxlab.net.RxJavaCallAdapterFactory.RxJavaCallAdapterFactory;
 
 import retrofit2.Retrofit;
@@ -65,6 +66,16 @@ public class Rt {
         @Headers("apikey:" + BAIDU_KEY)
         @GET("/apistore/weatherservice/citylist")
         Observable<HttpCitysBean> getCitys(@Query("cityname") String cityname);
+
+
+        /**
+         * @param cityid 查询地址ID
+         * @return 查询天气 <a href="http://apistore.baidu.com/apiworks/servicedetail/112.html">查看说明
+         */
+        @Headers("apikey:" + BAIDU_KEY)
+        @GET("/apistore/weatherservice/recentweathers")
+        Observable<HttpWeatherBean> getWeather(@Query("cityid") String cityid);
+
     }
 
 }
