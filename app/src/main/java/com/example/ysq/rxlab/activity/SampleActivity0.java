@@ -1,6 +1,7 @@
 package com.example.ysq.rxlab.activity;
 
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -38,6 +39,9 @@ public class SampleActivity0 extends AppCompatActivity {
     @Bind(R.id.pb)
     ProgressBar mPb;
 
+    @Bind(R.id.swipe)
+    SwipeRefreshLayout mSwipe;
+
     Sample0Adapter mAdapter;
 
     Subscription subscribe;
@@ -53,7 +57,30 @@ public class SampleActivity0 extends AppCompatActivity {
         mRv.setLayoutManager(new LinearLayoutManager(this));
         mRv.setItemAnimator(new DefaultItemAnimator());
 
-        subscribe = Rt.baidu().getNews()//获取新闻
+        subscribe = getNews();
+
+        mSwipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if (subscribe != null) {
+                    subscribe.unsubscribe();
+                }
+                subscribe = getNews();
+            }
+        });
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ButterKnife.unbind(this);
+        subscribe.unsubscribe();
+    }
+
+
+    public Subscription getNews() {
+        return Rt.baidu().getNews()//获取新闻
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext(new Action1<HttpNewsBean>() {
@@ -65,6 +92,7 @@ public class SampleActivity0 extends AppCompatActivity {
                 .subscribe(new Action1<HttpNewsBean>() {
                     @Override
                     public void call(HttpNewsBean httpNewsBean) {
+                        mSwipe.setRefreshing(false);
                         if (httpNewsBean.getErrNum() == 0) {
                             mRv.setAdapter(mAdapter = new Sample0Adapter(httpNewsBean.getRetData()));
                         } else {
@@ -72,16 +100,6 @@ public class SampleActivity0 extends AppCompatActivity {
                         }
                     }
                 }, new ErrorAction1(this));
-
-
-    }
-
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        ButterKnife.unbind(this);
-        subscribe.unsubscribe();
     }
 
 }

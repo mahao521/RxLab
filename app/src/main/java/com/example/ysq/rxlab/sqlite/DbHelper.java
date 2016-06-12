@@ -13,20 +13,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DbHelper extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "rxlab.db3";
+
     private static final int DB_VERSION = 1;
-
-    private static DbHelper mInstance;
-
-    public static DbHelper g(Context context) {
-        if (mInstance == null) {
-            synchronized (DbHelper.class) {
-                if (mInstance == null) {
-                    mInstance = new DbHelper(context);
-                }
-            }
-        }
-        return mInstance;
-    }
 
     public DbHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
