@@ -30,6 +30,7 @@ public class Rt {
     private Rt() {
         mBaiduService = new Retrofit.Builder().baseUrl(SERVER_URL)
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+//                .addConverterFactory(ScalarsConverterFactory.create())   获取string 类型结果
                 .addConverterFactory(GsonConverterFactory.create())
                 .build().create(BaiduService.class);
     }
@@ -73,7 +74,7 @@ public class Rt {
          * @return 查询天气 <a href="http://apistore.baidu.com/apiworks/servicedetail/112.html">查看说明
          */
         @Headers("apikey:" + BAIDU_KEY)
-        @GET("/apistore/weatherservice/recentweathers")
+        @GET("/apistore/weatherservice/cityid")
         Observable<HttpWeatherBean> getWeather(@Query("cityid") String cityid);
 
     }

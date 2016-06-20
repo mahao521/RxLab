@@ -7,8 +7,8 @@ package com.example.ysq.rxlab.models;
 
 public class WeatherBean {
     String city;
-    String cityid;
-    WeatherTodayBean today;
+    String citycode;
+    String weather;
 
     public String getCity() {
         return city;
@@ -18,19 +18,19 @@ public class WeatherBean {
         this.city = city;
     }
 
-    public String getCityid() {
-        return cityid;
+    public String getCitycode() {
+        return citycode;
     }
 
-    public void setCityid(String cityid) {
-        this.cityid = cityid;
+    public void setCitycode(String citycode) {
+        this.citycode = citycode;
     }
 
-    public WeatherTodayBean getToday() {
-        return today;
+    public String getWeather() {
+        return weather;
     }
 
-    public void setToday(WeatherTodayBean today) {
-        this.today = today;
+    public void setWeather(String weather) {
+        this.weather = weather;
     }
 }

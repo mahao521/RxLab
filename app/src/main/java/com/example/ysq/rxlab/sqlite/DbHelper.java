@@ -6,13 +6,25 @@ import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+
 /**
- * 作者：ysq
- * 时间：2016/1/29
+ * 如果对写入速度有要求，可以对每个表写一个Helper
+ *
+ * <p>作者：ysq
+ *
+ * <br>时间：2016/1/29
  */
 public class DbHelper extends SQLiteOpenHelper {
 
+    static {
+        DB_LOCK = new ReentrantReadWriteLock();
+    }
+
     private static final String DB_NAME = "rxlab.db3";
+
+    public static final ReadWriteLock DB_LOCK;
 
     private static final int DB_VERSION = 1;
 
@@ -32,7 +44,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table if not exists DStockList(code TEXT,name TEXT,price TEXT,percent TEXT)");
+        db.execSQL("create table if not exists Weather(city TEXT,citycode TEXT,weather TEXT)");
     }
 
     @Override

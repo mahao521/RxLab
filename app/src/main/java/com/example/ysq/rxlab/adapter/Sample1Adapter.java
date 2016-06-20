@@ -8,6 +8,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.ysq.rxlab.R;
+import com.example.ysq.rxlab.models.WeatherBean;
+
+import java.util.List;
 
 /**
  * 作者：ysq
@@ -17,6 +20,8 @@ import com.example.ysq.rxlab.R;
 public class Sample1Adapter extends RecyclerView.Adapter {
 
     Context mContext;
+
+    List<WeatherBean> mWeatherBeen;
 
 
     @Override
@@ -32,24 +37,29 @@ public class Sample1Adapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
+        ((MyViewHolder) holder).name.setText(mWeatherBeen.get(position).getCity());
+        ((MyViewHolder) holder).weather.setText(mWeatherBeen.get(position).getWeather());
     }
 
 
+    public void refresh(List<WeatherBean> weatherBeen) {
+        mWeatherBeen = weatherBeen;
+        notifyDataSetChanged();
+    }
 
     @Override
     public int getItemCount() {
-        return 0;
+        if (mWeatherBeen == null) return 0;
+        else return mWeatherBeen.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView name, price, percent;
+        TextView name, weather;
 
         MyViewHolder(View itemView) {
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.name);
-            price = (TextView) itemView.findViewById(R.id.price);
-            percent = (TextView) itemView.findViewById(R.id.percent);
+            weather = (TextView) itemView.findViewById(R.id.weather);
         }
     }
 }

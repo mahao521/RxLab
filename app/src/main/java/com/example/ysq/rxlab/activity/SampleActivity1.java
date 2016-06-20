@@ -17,11 +17,13 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.ysq.rxlab.R;
 import com.example.ysq.rxlab.adapter.Sample1Adapter;
+import com.example.ysq.rxlab.handlers.ErrorAction1;
 import com.example.ysq.rxlab.models.CityBean;
 import com.example.ysq.rxlab.models.HttpCitysBean;
 import com.example.ysq.rxlab.models.HttpWeatherBean;
-import com.example.ysq.rxlab.handlers.ErrorAction1;
+import com.example.ysq.rxlab.models.WeatherBean;
 import com.example.ysq.rxlab.network.Rt;
+import com.example.ysq.rxlab.sqlite.DWeather;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,6 +63,21 @@ public class SampleActivity1 extends AppCompatActivity {
         mRv.setAdapter(mAdapter = new Sample1Adapter());
         mRv.setItemAnimator(new DefaultItemAnimator());
 
+        DWeather dWeather = new DWeather(this);
+        dWeather.getWeathers()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<List<WeatherBean>>() {
+                    @Override
+                    public void call(List<WeatherBean> weatherBeen) {
+                        mAdapter.refresh(weatherBeen);
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        Log.e(SampleActivity1.class.getSimpleName(), throwable.getMessage());
+                    }
+                });
     }
 
 
@@ -144,7 +161,7 @@ public class SampleActivity1 extends AppCompatActivity {
                     @Override
                     public void call(HttpWeatherBean httpWeatherBean) {
                         if (httpWeatherBean.getErrNum() == 0)
-                            Toast.makeText(SampleActivity1.this, httpWeatherBean.getRetData().getToday().getType(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SampleActivity1.this, httpWeatherBean.getRetData().getWeather(), Toast.LENGTH_SHORT).show();
                         else
                             Log.i(SampleActivity1.class.getSimpleName(), "httpWeatherBean.getErrNum():" + httpWeatherBean.getErrNum());
                     }

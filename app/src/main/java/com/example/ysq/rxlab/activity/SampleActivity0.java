@@ -13,7 +13,6 @@ import android.widget.ProgressBar;
 
 import com.example.ysq.rxlab.R;
 import com.example.ysq.rxlab.adapter.Sample0Adapter;
-import com.example.ysq.rxlab.app.RxApplication;
 import com.example.ysq.rxlab.handlers.ErrorAction2;
 import com.example.ysq.rxlab.models.HttpNewsBean;
 import com.example.ysq.rxlab.network.Rt;
