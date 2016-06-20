@@ -1,4 +1,4 @@
-package com.example.ysq.rxlab.model;
+package com.example.ysq.rxlab.models;
 
 import java.util.Collection;
 import java.util.List;

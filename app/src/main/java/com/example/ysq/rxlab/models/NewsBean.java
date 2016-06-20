@@ -1,4 +1,4 @@
-package com.example.ysq.rxlab.model;
+package com.example.ysq.rxlab.models;
 
 import com.google.gson.annotations.SerializedName;
 

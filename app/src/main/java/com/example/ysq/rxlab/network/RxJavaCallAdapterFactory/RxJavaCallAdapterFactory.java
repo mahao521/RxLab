@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.ysq.rxlab.net.RxJavaCallAdapterFactory;
+package com.example.ysq.rxlab.network.RxJavaCallAdapterFactory;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;

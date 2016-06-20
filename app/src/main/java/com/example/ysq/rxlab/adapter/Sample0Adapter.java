@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.example.ysq.rxlab.R;
 import com.example.ysq.rxlab.activity.WebActivity;
-import com.example.ysq.rxlab.model.NewsBean;
+import com.example.ysq.rxlab.models.NewsBean;
 import com.jakewharton.rxbinding.view.RxView;
 import com.squareup.picasso.Picasso;
 
@@ -89,4 +89,5 @@ public class Sample0Adapter extends RecyclerView.Adapter {
             view = itemView;
         }
     }
+
 }

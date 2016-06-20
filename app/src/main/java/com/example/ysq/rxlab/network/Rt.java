@@ -1,9 +1,9 @@
-package com.example.ysq.rxlab.net;
+package com.example.ysq.rxlab.network;
 
-import com.example.ysq.rxlab.model.HttpCitysBean;
-import com.example.ysq.rxlab.model.HttpNewsBean;
-import com.example.ysq.rxlab.model.HttpWeatherBean;
-import com.example.ysq.rxlab.net.RxJavaCallAdapterFactory.RxJavaCallAdapterFactory;
+import com.example.ysq.rxlab.models.HttpCitysBean;
+import com.example.ysq.rxlab.models.HttpNewsBean;
+import com.example.ysq.rxlab.models.HttpWeatherBean;
+import com.example.ysq.rxlab.network.RxJavaCallAdapterFactory.RxJavaCallAdapterFactory;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

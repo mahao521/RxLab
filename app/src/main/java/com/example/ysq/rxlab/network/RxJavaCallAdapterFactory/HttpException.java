@@ -1,4 +1,4 @@
-package com.example.ysq.rxlab.net.RxJavaCallAdapterFactory;
+package com.example.ysq.rxlab.network.RxJavaCallAdapterFactory;
 
 import retrofit2.Response;
 

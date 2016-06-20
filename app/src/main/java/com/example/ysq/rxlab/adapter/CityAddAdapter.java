@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.ysq.rxlab.R;
-import com.example.ysq.rxlab.model.CityBean;
+import com.example.ysq.rxlab.models.CityBean;
 
 import java.util.List;
 

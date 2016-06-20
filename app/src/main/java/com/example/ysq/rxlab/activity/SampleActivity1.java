@@ -17,11 +17,11 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.ysq.rxlab.R;
 import com.example.ysq.rxlab.adapter.Sample1Adapter;
-import com.example.ysq.rxlab.model.CityBean;
-import com.example.ysq.rxlab.model.HttpCitysBean;
-import com.example.ysq.rxlab.model.HttpWeatherBean;
-import com.example.ysq.rxlab.net.ErrorAction1;
-import com.example.ysq.rxlab.net.Rt;
+import com.example.ysq.rxlab.models.CityBean;
+import com.example.ysq.rxlab.models.HttpCitysBean;
+import com.example.ysq.rxlab.models.HttpWeatherBean;
+import com.example.ysq.rxlab.handlers.ErrorAction1;
+import com.example.ysq.rxlab.network.Rt;
 
 import java.util.ArrayList;
 import java.util.List;

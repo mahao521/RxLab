@@ -1,4 +1,4 @@
-package com.example.ysq.rxlab.model;
+package com.example.ysq.rxlab.models;
 
 /**
  * 作者：ysq

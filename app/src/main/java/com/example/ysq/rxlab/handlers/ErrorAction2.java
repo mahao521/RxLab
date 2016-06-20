@@ -1,10 +1,8 @@
-package com.example.ysq.rxlab.net;
+package com.example.ysq.rxlab.handlers;
 
 import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
-
-import com.example.ysq.rxlab.net.RxJavaCallAdapterFactory.HttpException;
 
 import java.net.UnknownHostException;
 
@@ -12,13 +10,13 @@ import rx.functions.Action1;
 
 /**
  * 作者：ysq
- * 时间：2016/6/3
+ * 时间：2016/6/16
  */
 
-public class ErrorAction1 implements Action1<Throwable> {
+public abstract class ErrorAction2 implements Action1<Throwable> {
     Context mContext;
 
-    public ErrorAction1(Context context) {
+    public ErrorAction2(Context context) {
         this.mContext = context;
     }
 
@@ -27,8 +25,11 @@ public class ErrorAction1 implements Action1<Throwable> {
         if (throwable instanceof UnknownHostException) {
             Toast.makeText(mContext, "联网失败，请检查网络", Toast.LENGTH_SHORT).show();
         } else {
-            ((HttpException) throwable).getMessage();
-            Log.i(ErrorAction1.class.getSimpleName(), throwable.getMessage());
+            Log.e(ErrorAction1.class.getSimpleName(), throwable.getMessage());
         }
+        afterCall();
     }
+
+    public abstract void afterCall();
 }
+
