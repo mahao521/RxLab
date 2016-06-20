@@ -13,10 +13,10 @@ import rx.functions.Action1;
  * 时间：2016/6/16
  */
 
-public abstract class ErrorAction2 implements Action1<Throwable> {
+public abstract class HttpErrorAction2 implements Action1<Throwable> {
     Context mContext;
 
-    public ErrorAction2(Context context) {
+    public HttpErrorAction2(Context context) {
         this.mContext = context;
     }
 
@@ -25,7 +25,7 @@ public abstract class ErrorAction2 implements Action1<Throwable> {
         if (throwable instanceof UnknownHostException) {
             Toast.makeText(mContext, "联网失败，请检查网络", Toast.LENGTH_SHORT).show();
         } else {
-            Log.e(ErrorAction1.class.getSimpleName(), throwable.getMessage());
+            Log.e(HttpErrorAction1.class.getSimpleName(), throwable.getMessage());
         }
         afterCall();
     }

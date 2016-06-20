@@ -12,15 +12,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.ysq.rxlab.R;
 import com.example.ysq.rxlab.adapter.Sample1Adapter;
-import com.example.ysq.rxlab.handlers.ErrorAction1;
+import com.example.ysq.rxlab.handlers.HttpErrorAction1;
 import com.example.ysq.rxlab.models.CityBean;
 import com.example.ysq.rxlab.models.HttpCitysBean;
-import com.example.ysq.rxlab.models.HttpWeatherBean;
 import com.example.ysq.rxlab.models.WeatherBean;
 import com.example.ysq.rxlab.network.Rt;
 import com.example.ysq.rxlab.sqlite.DWeather;
@@ -144,28 +142,39 @@ public class SampleActivity1 extends AppCompatActivity {
                             Log.e(SampleActivity1.class.getSimpleName(), httpCitysBean.getErrMsg() + ",code:" + httpCitysBean.getErrNum());
                         }
                     }
-                }, new ErrorAction1(SampleActivity1.this));
+                }, new HttpErrorAction1(SampleActivity1.this));
     }
 
     private void addCity(CityBean cityBean) {
         Observable.just(cityBean)
                 .observeOn(Schedulers.io())
-                .flatMap(new Func1<CityBean, Observable<HttpWeatherBean>>() {
+                .map(new Func1<CityBean, WeatherBean>() {
                     @Override
-                    public Observable<HttpWeatherBean> call(CityBean cityBean) {
-                        return Rt.baidu().getWeather(cityBean.getArea_id() + "");
+                    public WeatherBean call(CityBean cityBean) {
+                        WeatherBean bean = new WeatherBean();
+                        bean.setCitycode(cityBean.getArea_id() + "");
+                        return bean;
                     }
                 })
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<HttpWeatherBean>() {
+                .doOnNext(new Action1<WeatherBean>() {
                     @Override
-                    public void call(HttpWeatherBean httpWeatherBean) {
-                        if (httpWeatherBean.getErrNum() == 0)
-                            Toast.makeText(SampleActivity1.this, httpWeatherBean.getRetData().getWeather(), Toast.LENGTH_SHORT).show();
-                        else
-                            Log.i(SampleActivity1.class.getSimpleName(), "httpWeatherBean.getErrNum():" + httpWeatherBean.getErrNum());
+                    public void call(WeatherBean weatherBean) {
+                        new DWeather(SampleActivity1.this).addWeather(weatherBean);
                     }
-                }, new ErrorAction1(SampleActivity1.this));
+                })
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<WeatherBean>() {
+                    @Override
+                    public void call(WeatherBean weatherBean) {
+                        mAdapter.add(weatherBean);
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        Log.e(SampleActivity1.class.getSimpleName(), throwable.getMessage());
+                    }
+                });
+
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.example.ysq.rxlab.sqlite;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -39,10 +40,27 @@ public class DWeather {
                     bean.setWeather(cursor.getString(2));
                     weatherBeen.add(bean);
                 }
+                cursor.close();
+                readableDatabase.close();
                 DbHelper.DB_LOCK.readLock().unlock();
                 subscriber.onNext(weatherBeen);
                 subscriber.onCompleted();
             }
         });
+    }
+
+    public void addWeather(final WeatherBean weatherBean) {
+        DbHelper.DB_LOCK.writeLock().lock();
+        SQLiteDatabase writableDatabase = mHelper.getWritableDatabase();
+        writableDatabase.beginTransaction();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("city", weatherBean.getCity());
+        contentValues.put("citycode", weatherBean.getCitycode());
+        contentValues.put("weather", weatherBean.getWeather());
+        writableDatabase.insert("Weather", null, contentValues);
+        writableDatabase.endTransaction();
+        writableDatabase.close();
+        DbHelper.DB_LOCK.writeLock().unlock();
+
     }
 }

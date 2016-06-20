@@ -2,6 +2,7 @@ package com.example.ysq.rxlab.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +38,10 @@ public class Sample1Adapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        ((MyViewHolder) holder).name.setText(mWeatherBeen.get(position).getCity());
+        if (TextUtils.isEmpty(mWeatherBeen.get(position).getCity()))
+            ((MyViewHolder) holder).name.setText(mWeatherBeen.get(position).getCity());
+        else
+            ((MyViewHolder) holder).name.setText(mWeatherBeen.get(position).getCitycode());
         ((MyViewHolder) holder).weather.setText(mWeatherBeen.get(position).getWeather());
     }
 
@@ -45,6 +49,12 @@ public class Sample1Adapter extends RecyclerView.Adapter {
     public void refresh(List<WeatherBean> weatherBeen) {
         mWeatherBeen = weatherBeen;
         notifyDataSetChanged();
+    }
+
+
+    public void add(WeatherBean weatherBeen) {
+        mWeatherBeen.add(0, weatherBeen);
+        notifyItemInserted(0);
     }
 
     @Override
