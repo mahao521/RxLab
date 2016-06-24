@@ -153,6 +153,7 @@ public class SampleActivity1 extends AppCompatActivity {
                     public WeatherBean call(CityBean cityBean) {
                         WeatherBean bean = new WeatherBean();
                         bean.setCitycode(cityBean.getArea_id() + "");
+                        bean.setCity(cityBean.getName_cn());
                         return bean;
                     }
                 })

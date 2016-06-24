@@ -38,11 +38,14 @@ public class Sample1Adapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (TextUtils.isEmpty(mWeatherBeen.get(position).getCity()))
+        if (!TextUtils.isEmpty(mWeatherBeen.get(position).getCity()))
             ((MyViewHolder) holder).name.setText(mWeatherBeen.get(position).getCity());
         else
             ((MyViewHolder) holder).name.setText(mWeatherBeen.get(position).getCitycode());
-        ((MyViewHolder) holder).weather.setText(mWeatherBeen.get(position).getWeather());
+        if (!TextUtils.isEmpty(mWeatherBeen.get(position).getWeather()))
+            ((MyViewHolder) holder).weather.setText(mWeatherBeen.get(position).getWeather());
+        else
+            ((MyViewHolder) holder).weather.setText("--");
     }
 
 

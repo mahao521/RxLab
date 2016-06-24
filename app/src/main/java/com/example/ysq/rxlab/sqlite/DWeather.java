@@ -58,9 +58,9 @@ public class DWeather {
         contentValues.put("citycode", weatherBean.getCitycode());
         contentValues.put("weather", weatherBean.getWeather());
         writableDatabase.insert("Weather", null, contentValues);
+        writableDatabase.setTransactionSuccessful();
         writableDatabase.endTransaction();
         writableDatabase.close();
         DbHelper.DB_LOCK.writeLock().unlock();
-
     }
 }
