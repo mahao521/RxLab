@@ -62,7 +62,7 @@ public class Sample1Adapter extends RecyclerView.Adapter {
 
     public void update(WeatherBean weatherBean) {
         for (WeatherBean bean : mWeatherBeen) {
-            if (bean.getCitycode() == weatherBean.getCitycode()) {
+            if (bean.getCitycode().equals(weatherBean.getCitycode())){
                 bean = weatherBean;
                 notifyItemChanged(mWeatherBeen.indexOf(bean));
                 break;
