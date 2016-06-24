@@ -19,16 +19,19 @@ import com.example.ysq.rxlab.adapter.Sample1Adapter;
 import com.example.ysq.rxlab.handlers.HttpErrorAction1;
 import com.example.ysq.rxlab.models.CityBean;
 import com.example.ysq.rxlab.models.HttpCitysBean;
+import com.example.ysq.rxlab.models.HttpWeatherBean;
 import com.example.ysq.rxlab.models.WeatherBean;
 import com.example.ysq.rxlab.network.Rt;
 import com.example.ysq.rxlab.sqlite.DWeather;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import rx.Observable;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.functions.Func1;
@@ -48,6 +51,8 @@ public class SampleActivity1 extends AppCompatActivity {
     RecyclerView mRv;
 
     Sample1Adapter mAdapter;
+
+    Subscription subscribe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +74,43 @@ public class SampleActivity1 extends AppCompatActivity {
                     @Override
                     public void call(List<WeatherBean> weatherBeen) {
                         mAdapter.refresh(weatherBeen);
+                        updateWeathers();
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        Log.e(SampleActivity1.class.getSimpleName(), throwable.getMessage());
+                    }
+                });
+    }
+
+
+    private void updateWeathers() {
+        subscribe = Observable.interval(5, TimeUnit.SECONDS)
+                .observeOn(Schedulers.io())
+                .flatMap(new Func1<Long, Observable<WeatherBean>>() {
+                    @Override
+                    public Observable<WeatherBean> call(Long aLong) {
+                        return Observable.from(mAdapter.getWeathers());
+                    }
+                })
+                .flatMap(new Func1<WeatherBean, Observable<HttpWeatherBean>>() {
+                    @Override
+                    public Observable<HttpWeatherBean> call(WeatherBean weatherBean) {
+                        return Rt.baidu().getWeather(weatherBean.getCitycode());
+                    }
+                })
+                .map(new Func1<HttpWeatherBean, WeatherBean>() {
+                    @Override
+                    public WeatherBean call(HttpWeatherBean httpWeatherBean) {
+                        return httpWeatherBean.getRetData();
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<WeatherBean>() {
+                    @Override
+                    public void call(WeatherBean weatherBean) {
+                        mAdapter.update(weatherBean);
                     }
                 }, new Action1<Throwable>() {
                     @Override
@@ -182,5 +224,7 @@ public class SampleActivity1 extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         ButterKnife.unbind(this);
+        if (subscribe != null)
+            subscribe.unsubscribe();
     }
 }

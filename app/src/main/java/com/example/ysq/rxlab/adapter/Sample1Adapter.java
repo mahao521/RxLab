@@ -60,6 +60,20 @@ public class Sample1Adapter extends RecyclerView.Adapter {
         notifyItemInserted(0);
     }
 
+    public void update(WeatherBean weatherBean) {
+        for (WeatherBean bean : mWeatherBeen) {
+            if (bean.getCitycode() == weatherBean.getCitycode()) {
+                bean = weatherBean;
+                notifyItemChanged(mWeatherBeen.indexOf(bean));
+                break;
+            }
+        }
+    }
+
+    public List<WeatherBean> getWeathers() {
+        return mWeatherBeen;
+    }
+
     @Override
     public int getItemCount() {
         if (mWeatherBeen == null) return 0;
