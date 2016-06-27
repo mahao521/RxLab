@@ -86,7 +86,7 @@ public class SampleActivity1 extends AppCompatActivity {
 
 
     private void updateWeathers() {
-        subscribe = Observable.interval(5, TimeUnit.SECONDS)
+        subscribe = Observable.interval(0, 5, TimeUnit.SECONDS)
                 .observeOn(Schedulers.io())
                 .flatMap(new Func1<Long, Observable<WeatherBean>>() {
                     @Override
