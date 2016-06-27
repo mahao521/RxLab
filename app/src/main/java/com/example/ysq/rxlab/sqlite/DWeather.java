@@ -32,7 +32,7 @@ public class DWeather {
                 List<WeatherBean> weatherBeen = new ArrayList<>();
                 DbHelper.DB_LOCK.readLock().lock();
                 SQLiteDatabase readableDatabase = mHelper.getReadableDatabase();
-                Cursor cursor = readableDatabase.query("Weather", new String[]{"city", "citycode", "weather"}, null, null, null, null, null);
+                Cursor cursor = readableDatabase.query("Weather", new String[]{"city", "citycode", "weather"}, null, null, null, null, "rowid desc");
                 while (cursor.moveToNext()) {
                     WeatherBean bean = new WeatherBean();
                     bean.setCity(cursor.getString(0));
@@ -58,6 +58,19 @@ public class DWeather {
         contentValues.put("citycode", weatherBean.getCitycode());
         contentValues.put("weather", weatherBean.getWeather());
         writableDatabase.insert("Weather", null, contentValues);
+        writableDatabase.setTransactionSuccessful();
+        writableDatabase.endTransaction();
+        writableDatabase.close();
+        DbHelper.DB_LOCK.writeLock().unlock();
+    }
+
+    public void updateWeather(final WeatherBean weatherBean) {
+        DbHelper.DB_LOCK.writeLock().lock();
+        SQLiteDatabase writableDatabase = mHelper.getWritableDatabase();
+        writableDatabase.beginTransaction();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("weather", weatherBean.getWeather());
+        writableDatabase.update("Weather", contentValues, "citycode=?", new String[]{weatherBean.getCitycode()});
         writableDatabase.setTransactionSuccessful();
         writableDatabase.endTransaction();
         writableDatabase.close();

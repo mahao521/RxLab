@@ -38,10 +38,7 @@ public class Sample1Adapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (!TextUtils.isEmpty(mWeatherBeen.get(position).getCity()))
-            ((MyViewHolder) holder).name.setText(mWeatherBeen.get(position).getCity());
-        else
-            ((MyViewHolder) holder).name.setText(mWeatherBeen.get(position).getCitycode());
+        ((MyViewHolder) holder).name.setText(mWeatherBeen.get(position).getCity());
         if (!TextUtils.isEmpty(mWeatherBeen.get(position).getWeather()))
             ((MyViewHolder) holder).weather.setText(mWeatherBeen.get(position).getWeather());
         else
@@ -63,7 +60,6 @@ public class Sample1Adapter extends RecyclerView.Adapter {
     public void update(WeatherBean weatherBean) {
         for (WeatherBean bean : mWeatherBeen) {
             if (bean.getCitycode().equals(weatherBean.getCitycode())) {
-                bean.setCity(weatherBean.getCity());
                 bean.setWeather(weatherBean.getWeather());
                 notifyItemChanged(mWeatherBeen.indexOf(bean));
                 break;

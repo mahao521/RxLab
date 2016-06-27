@@ -66,8 +66,7 @@ public class SampleActivity1 extends AppCompatActivity {
         mRv.setAdapter(mAdapter = new Sample1Adapter());
         mRv.setItemAnimator(new DefaultItemAnimator());
 
-        DWeather dWeather = new DWeather(this);
-        dWeather.getWeathers()
+        new DWeather(this).getWeathers()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<List<WeatherBean>>() {
@@ -86,7 +85,7 @@ public class SampleActivity1 extends AppCompatActivity {
 
 
     private void updateWeathers() {
-        subscribe = Observable.interval(0, 5, TimeUnit.SECONDS)
+        subscribe = Observable.interval(0, 1, TimeUnit.MINUTES)
                 .observeOn(Schedulers.io())
                 .flatMap(new Func1<Long, Observable<WeatherBean>>() {
                     @Override
@@ -104,6 +103,12 @@ public class SampleActivity1 extends AppCompatActivity {
                     @Override
                     public WeatherBean call(HttpWeatherBean httpWeatherBean) {
                         return httpWeatherBean.getRetData();
+                    }
+                })
+                .doOnNext(new Action1<WeatherBean>() {
+                    @Override
+                    public void call(WeatherBean weatherBean) {
+                        new DWeather(SampleActivity1.this).updateWeather(weatherBean);
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
@@ -206,10 +211,19 @@ public class SampleActivity1 extends AppCompatActivity {
                     }
                 })
                 .subscribeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<WeatherBean>() {
+                .doOnNext(new Action1<WeatherBean>() {
                     @Override
                     public void call(WeatherBean weatherBean) {
                         mAdapter.add(weatherBean);
+                    }
+                })
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Action1<WeatherBean>() {
+                    @Override
+                    public void call(WeatherBean weatherBean) {
+                        if (subscribe != null)
+                            subscribe.unsubscribe();
+                        updateWeathers();
                     }
                 }, new Action1<Throwable>() {
                     @Override
